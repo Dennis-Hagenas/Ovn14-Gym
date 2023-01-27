@@ -17,11 +17,10 @@ namespace Ovn14_Gym.Data.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUserGymClass>().HasKey(a => new
-            {
-                a.ApllicationUserId,
-                a.GymClassId
-            });
+            builder.Entity<ApplicationUserGymClass>().HasKey(a => new { a.ApllicationUserId, a.GymClassId });
+
+            builder.Entity<GymClass>().HasQueryFilter(g => g.StartTime > DateTime.UtcNow);
+
         }
     }
 }
