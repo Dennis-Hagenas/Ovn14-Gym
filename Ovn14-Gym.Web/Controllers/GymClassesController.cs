@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Data.Data;
 using Ovn14_Gym.Web.Data;
+using Ovn14_Gym.Web.Extensions;
 using Ovn14_Gym.Web.Models;
 
 namespace Ovn14_Gym.Web.Controllers
@@ -92,7 +93,7 @@ namespace Ovn14_Gym.Web.Controllers
         // GET: GymClasses/Create
         public IActionResult Create()
         {
-            return View();
+            return Request.IsAjax() ? PartialView("CreatePartial"): View();
         }
 
         // POST: GymClasses/Create
