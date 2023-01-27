@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,10 +18,12 @@ namespace Ovn14_Gym.Web.Controllers
     public class GymClassesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GymClassesController(ApplicationDbContext context)
+        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: GymClasses
@@ -30,6 +34,42 @@ namespace Ovn14_Gym.Web.Controllers
 
             return View(model);
         }
+
+        [Authorize]
+        public async Task<IActionResult> BookingToggle(int? id)
+        {
+            if (id is null) return BadRequest();
+
+            var userId = _userManager.GetUserId(User);
+
+            if (userId is null) return NotFound();
+
+            //var currentGymClass = await _context.GymClasses.Include(g => g.AttendingMembers )
+            //     .FirstOrDefaultAsync(g => g.Id == id);
+
+            //var attending = currentGymClass?.AttendingMembers.FirstOrDefault(a => a.ApllicationUserId == userId);
+
+            var attending = await _context.AppUserGymClass.FindAsync(userId, id);
+
+            if(attending == null)
+            {
+                var augc = new ApplicationUserGymClass
+                {
+                    ApllicationUserId = userId,
+                    GymClassId = (int)id
+                };
+                _context.AppUserGymClass.Add(augc);
+            }
+            else
+            {
+                _context.AppUserGymClass.Remove(attending);
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+
 
         // GET: GymClasses/Details/5
         public async Task<IActionResult> Details(int? id)
