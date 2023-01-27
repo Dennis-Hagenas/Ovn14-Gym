@@ -2,10 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
 
-namespace Ovn14_Gym.Web.Data
+namespace Ovn14_Gym.Data.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<GymClass> GymClasses => Set<GymClass>();
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -15,8 +17,11 @@ namespace Ovn14_Gym.Web.Data
         {
             base.OnModelCreating(builder);
 
-            builder.Entity<ApplicationUserGymClass>().HasKey(a => new { 
-            a.ApllicationUserId, a.GymClassId});
+            builder.Entity<ApplicationUserGymClass>().HasKey(a => new
+            {
+                a.ApllicationUserId,
+                a.GymClassId
+            });
         }
     }
 }

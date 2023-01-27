@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Ovn14_Gym.Web.Data;
+using Ovn14_Gym.Data.Data;
 using System;
 
 namespace Ovn14_Gym.Web.Data.Migrations

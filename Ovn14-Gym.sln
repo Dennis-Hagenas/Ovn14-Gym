@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ovn14-Gym.Web", "Ovn14-Gym.
 		{912D293F-5C55-4853-8649-A8C728378AAF} = {912D293F-5C55-4853-8649-A8C728378AAF}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ovn14-Gym.Data", "Ovn14-Gym.Data\Ovn14-Gym.Data.csproj", "{38B4A15B-F28D-43C6-B92D-2B216DFCA2B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{A713D931-D687-4A67-8C59-5855337FF32B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A713D931-D687-4A67-8C59-5855337FF32B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A713D931-D687-4A67-8C59-5855337FF32B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38B4A15B-F28D-43C6-B92D-2B216DFCA2B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38B4A15B-F28D-43C6-B92D-2B216DFCA2B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38B4A15B-F28D-43C6-B92D-2B216DFCA2B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38B4A15B-F28D-43C6-B92D-2B216DFCA2B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
