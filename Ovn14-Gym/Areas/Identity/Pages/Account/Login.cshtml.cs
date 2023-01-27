@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Ovn14_Gym.Models;
+using Ovn14_Gym.Core.Entities;
 
 namespace Ovn14_Gym.Areas.Identity.Pages.Account
 {

@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
-using Ovn14_Gym.Data;
-using Ovn14_Gym.Models;
+using Ovn14_Gym.Web.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +12,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
-    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Data;
 using Ovn14_Gym.Models;
 
@@ -78,7 +79,7 @@ namespace Ovn14_Gym.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(gymClass);
+            //return View(gymClass);
         }
 
         // GET: GymClasses/Edit/5

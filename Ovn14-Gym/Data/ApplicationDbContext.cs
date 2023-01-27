@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Models;
 
 namespace Ovn14_Gym.Data
