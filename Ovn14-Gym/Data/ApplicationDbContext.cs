@@ -20,5 +20,6 @@ namespace Ovn14_Gym.Data
 
 
         public DbSet<GymClass> gymClasses { get; set; }
+
     }
 }

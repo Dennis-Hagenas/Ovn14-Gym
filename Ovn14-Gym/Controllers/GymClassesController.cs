@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace Ovn14_Gym.Controllers
     public class GymClassesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public GymClassesController(ApplicationDbContext context)
+        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: GymClasses
@@ -44,6 +47,17 @@ namespace Ovn14_Gym.Controllers
 
             return View(gymClass);
         }
+
+        //public async Task<IActionResult> BookingToggle(int? id)
+        //{
+        //    if(id == null) return NotFound();
+        //    GymClass? gymClass = await _context.gymClasses.FindAsync(id);
+        //    ApplicationUser? user = await _userManager.GetUserAsync(User);
+        //    _context.applica
+
+
+        //}
+
 
         // GET: GymClasses/Create
         public IActionResult Create()
