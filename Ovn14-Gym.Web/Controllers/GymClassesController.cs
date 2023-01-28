@@ -96,6 +96,14 @@ namespace Ovn14_Gym.Web.Controllers
             return Request.IsAjax() ? PartialView("CreatePartial"): View();
         }
 
+
+        public IActionResult FetchForm()
+        {
+            return PartialView("CreatePartial");
+        }
+
+
+
         // POST: GymClasses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -122,6 +130,9 @@ namespace Ovn14_Gym.Web.Controllers
 
             return View(gymClass);
         }
+
+
+
 
         // GET: GymClasses/Edit/5
         public async Task<IActionResult> Edit(int? id)
