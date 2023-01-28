@@ -15,3 +15,8 @@ function fail(response) {
     createForm.innerHTML = response.responseText;
 
 }
+
+function fixValidation() {
+    const form = createForm.querySelector('form');
+    $.validator.unobtrusive.parse(form);
+}

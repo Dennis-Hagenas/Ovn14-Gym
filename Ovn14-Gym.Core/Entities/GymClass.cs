@@ -6,9 +6,13 @@ namespace Ovn14_Gym.Core.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public DateTime StartTime { get; set; }
-        public TimeSpan Duration { get; set; }
-        public DateTime EndTime { get { return StartTime + Duration; } }
+
+        [Required]
+        public DateTime? StartTime { get; set; }
+
+        [Required]
+        public TimeSpan? Duration { get; set; }
+        public DateTime? EndTime { get { return StartTime + Duration; } }
         public string Description { get; set; } = string.Empty;
 
         public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; } = new List<ApplicationUserGymClass>();
