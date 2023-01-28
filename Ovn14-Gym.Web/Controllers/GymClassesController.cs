@@ -108,7 +108,7 @@ namespace Ovn14_Gym.Web.Controllers
                 _context.Add(gymClass);
                 await _context.SaveChangesAsync();
                 return Request.IsAjax() ? 
-                    PartialView("GymClassesPartial", await _context.GymClasses.ToListAsync()) 
+                    PartialView("GymClassPartial", gymClass) 
                     : RedirectToAction(nameof(Index));
             }
 
