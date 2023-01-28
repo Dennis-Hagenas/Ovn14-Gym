@@ -12,6 +12,7 @@ using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Data.Data;
 using Ovn14_Gym.Web.Data;
 using Ovn14_Gym.Web.Extensions;
+using Ovn14_Gym.Web.Filters;
 using Ovn14_Gym.Web.Models;
 
 namespace Ovn14_Gym.Web.Controllers
@@ -73,21 +74,11 @@ namespace Ovn14_Gym.Web.Controllers
 
 
         // GET: GymClasses/Details/5
+        [RequiredParameterRequiredModel("id")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.GymClasses == null)
-            {
-                return NotFound();
-            }
-
-            var gymClass = await _context.GymClasses
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (gymClass == null)
-            {
-                return NotFound();
-            }
-
-            return View(gymClass);
+            return View(await _context.GymClasses
+                .FirstOrDefaultAsync(m => m.Id == id));
         }
 
         // GET: GymClasses/Create
