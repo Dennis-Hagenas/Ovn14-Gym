@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Bogus;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Data.Data;
@@ -30,13 +31,101 @@ namespace Ovn14_Gym.Data
             userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
             ArgumentNullException.ThrowIfNull(userManager);
 
-        var roleNames = new[] {"Member", "Admin"};
+            var roleNames = new[] {"Member", "Admin"};
             var adminEmail = "admin@gym.se";
 
-        
-        
-        
-        
+            var gymClasses = GetGymClasses(20);
+            await db.AddRangeAsync(gymClasses);
+
+            await AddRolesAsync(roleNames);
+
+            var admin = await AddAdminAsync(adminEmail, adminPW);
+
+            await AddToRolesAsync(admin, roleNames);    
         }
+
+        private static async Task AddToRolesAsync(ApplicationUser admin, string[] roleNames)
+        {
+            foreach(var role in roleNames) {
+                if (await userManager.IsInRoleAsync(admin, role)) continue;
+                var result = await userManager.AddToRoleAsync(admin, role);
+                if (!result.Succeeded) throw new Exception(string.Join("\n", result.Errors));
+            }
+        }
+
+        private static async Task<ApplicationUser> AddAdminAsync(string adminEmail, string adminPW)
+        {
+             var found = await userManager.FindByEmailAsync(adminEmail);
+            if (found != null) return null;
+
+            var admin = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail
+            };
+
+            var result = await userManager.CreateAsync(admin, adminPW);
+            if (!result.Succeeded) throw new Exception(string.Join("\n", result.Errors));
+            return admin;
+        }
+
+        private static async Task AddRolesAsync(string[] roleNames)
+        {
+            foreach (var roleName in roleNames)
+            {
+                if (await roleManager.RoleExistsAsync(roleName)) continue;
+                var role = new IdentityRole { Name = roleName };
+                var result = await roleManager.CreateAsync(role);
+
+                if (!result.Succeeded) throw new Exception(string.Join("\n", result.Errors));
+            }
+        }
+
+        private static IEnumerable<GymClass> GetGymClasses(int nrOfGymClasses)
+        {
+            var faker = new Faker("sv");
+
+            var gymClasses = new List<GymClass>();
+            for (int i = 0; i < nrOfGymClasses; i++)
+            {
+                var temp = new GymClass
+                {
+                    Name = faker.Company.CatchPhrase(),
+                    Description = faker.Hacker.Verb(),
+                    Duration = new TimeSpan(0, 55, 0),
+                    StartTime = DateTime.Now.AddDays(faker.Random.Int(-5, 5))
+                };
+
+                gymClasses.Add(temp);
+            }
+            return gymClasses;
+
+}
+
+
+        private static IEnumerable<GymClass> GetGymClasses2(int nrOfGymClasses)
+        {
+            var faker = new Faker<GymClass>("sv").Rules((f, g) =>
+            {
+                g.Name = f.Company.CatchPhrase();
+                g.Description = f.Hacker.Verb();
+                g.Duration = new TimeSpan(0, 55, 0);
+                g.StartTime = DateTime.Now.AddDays(f.Random.Int(-5, 5));
+            });
+            return faker.Generate(nrOfGymClasses);
+        }
+
+
+        private static IEnumerable<GymClass> GetGymClasses3(int nrOfGymClasses)
+        {
+            var faker = new Faker<GymClass>("sv")
+                .RuleFor(g => g.Name, f => f.Company.CatchPhrase())
+                .RuleFor(g => g.Description, f => f.Hacker.Verb())
+                .RuleFor(g => g.Duration, new TimeSpan(0, 55, 0))
+                .RuleFor(g => g.StartTime, f => DateTime.Now.AddDays(f.Random.Int(-5, 5)));
+
+            return faker.Generate(nrOfGymClasses);
+        }
+
     }
 }
