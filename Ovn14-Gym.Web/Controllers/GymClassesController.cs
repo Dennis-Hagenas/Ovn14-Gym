@@ -37,7 +37,7 @@ namespace Ovn14_Gym.Web.Controllers
             return View(model);
         }
 
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
         {
             if (id is null) return BadRequest();

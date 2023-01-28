@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Data.Data;
@@ -28,8 +31,23 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews(options =>
 {
+    var policy = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+    .RequireRole("Member")
+    .Build();
+    options.Filters.Add(new AuthorizeFilter(policy)); 
     options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => "The field is required");
+
 });
+
+//builder.Services.AddAuthorization(opt =>
+//{
+//    opt.AddPolicy("Test", policy =>
+//    {
+//        policy.RequireRole("Admin");
+//        policy.RequireClaim("Test");
+//    });
+//});
 
 var app = builder.Build();
 
