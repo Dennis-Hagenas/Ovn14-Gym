@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Data.Data;
 using Ovn14_Gym.Web.Data;
+using Ovn14_Gym.Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,6 +43,9 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+await app.SeedDataAsync();
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
