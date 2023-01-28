@@ -23,7 +23,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     options.Password.RequireDigit= false;
     options.Password.RequiredLength = 3;
     })
-
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews(options =>
 {

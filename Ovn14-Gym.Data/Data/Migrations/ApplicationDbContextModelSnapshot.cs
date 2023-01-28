@@ -241,7 +241,7 @@ namespace Ovn14Gym.Web.Data.Migrations
 
                     b.HasIndex("GymClassId");
 
-                    b.ToTable("AppUserGymClass");
+                    b.ToTable("AppUserGymClass", (string)null);
                 });
 
             modelBuilder.Entity("Ovn14_Gym.Core.Entities.GymClass", b =>
@@ -268,7 +268,7 @@ namespace Ovn14Gym.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GymClasses");
+                    b.ToTable("GymClasses", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
