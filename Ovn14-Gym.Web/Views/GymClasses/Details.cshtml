@@ -36,6 +36,28 @@
         </dd>
     </dl>
 </div>
+
+<h3>Attending members</h3>
+
+    <thead>
+        <tr>
+            <th>
+                Name
+        </th>
+        </tr>
+</thead>
+
+   @* <tbody>
+@foreach (var AttendingMember in Model.AttendingMembers)
+{
+<tr>
+    <td>@AttendingMember.ApllicationUserId</td>
+</tr>
+}
+    </tbody>*@
+
+
+
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Data.Data;
+using Ovn14_Gym.Data.Repositories;
 using Ovn14_Gym.Web.Data;
 using Ovn14_Gym.Web.Extensions;
 using Ovn14_Gym.Web.Filters;
@@ -21,21 +22,27 @@ namespace Ovn14_Gym.Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IUnitOfWork uow;
 
-        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        //private readonly GymClassRepository gymClassesRepository;
+
+        public GymClassesController(IUnitOfWork uow, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _userManager = userManager;
+          //  gymClassesRepository = new GymClassRepository(context);
+          this.uow = uow;
         }
 
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
-            //var model = await _context.GymClasses.IgnoreQueryFilters().ToListAsync();
-            var model = await _context.GymClasses.ToListAsync();
-
+            List<GymClass> model = await uow.GymClassRepository.GetAsync();
+ 
             return View(model);
         }
+
+      
 
         //[Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
