@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Data.Data;
-using Ovn14_Gym.Data.Repositories;
 using Ovn14_Gym.Web.Data;
 using Ovn14_Gym.Web.Extensions;
 using Ovn14_Gym.Web.MiddleWare;
@@ -19,8 +18,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => {
     options.SignIn.RequireConfirmedAccount = false;
@@ -66,7 +63,7 @@ else
     app.UseHsts();
 }
 
-//await app.SeedDataAsync();
+await app.SeedDataAsync();
 
 
 app.UseHttpsRedirection();
