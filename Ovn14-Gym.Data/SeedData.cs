@@ -41,7 +41,9 @@ namespace Ovn14_Gym.Data
 
             var admin = await AddAdminAsync(adminEmail, adminPW);
 
-            await AddToRolesAsync(admin, roleNames);    
+            await AddToRolesAsync(admin, roleNames);
+
+
         }
 
         private static async Task AddToRolesAsync(ApplicationUser admin, string[] roleNames)
@@ -56,7 +58,7 @@ namespace Ovn14_Gym.Data
         private static async Task<ApplicationUser> AddAdminAsync(string adminEmail, string adminPW)
         {
              var found = await userManager.FindByEmailAsync(adminEmail);
-            if (found != null) return null;
+            if (found != null) return found;
 
             var admin = new ApplicationUser
             {

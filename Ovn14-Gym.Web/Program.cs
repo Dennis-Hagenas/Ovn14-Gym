@@ -35,9 +35,9 @@ builder.Services.AddControllersWithViews(options =>
 {
     var policy = new AuthorizationPolicyBuilder()
     .RequireAuthenticatedUser()
-    .RequireRole("Member")
+//    .RequireRole("Member")
     .Build();
-    options.Filters.Add(new AuthorizeFilter(policy)); 
+    options.Filters.Add(new AuthorizeFilter(policy));
     options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(_ => "The field is required");
 
 });
@@ -65,7 +65,7 @@ else
     app.UseHsts();
 }
 
-//await app.SeedDataAsync();
+await app.SeedDataAsync();
 
 
 app.UseHttpsRedirection();

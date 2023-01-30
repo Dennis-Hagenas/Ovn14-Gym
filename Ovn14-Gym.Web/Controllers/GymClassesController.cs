@@ -33,7 +33,7 @@ namespace Ovn14_Gym.Web.Controllers
           //  gymClassesRepository = new GymClassRepository(context);
           this.uow = uow;
         }
-
+        [AllowAnonymous]
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
