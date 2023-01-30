@@ -8,7 +8,6 @@ using Ovn14_Gym.Data.Data;
 using Ovn14_Gym.Data.Repositories;
 using Ovn14_Gym.Web.Data;
 using Ovn14_Gym.Web.Extensions;
-using Ovn14_Gym.Web.MiddleWare;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -73,8 +72,6 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
-//app.UseMiddlewareTest();
 
 app.UseAuthorization();
 
