@@ -1,0 +1,44 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Data.SqlClient;
+using Ovn14_Gym.Core.Entities;
+using Ovn14_Gym.Core.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ovn14_Gym.Data
+{
+    public class MapperProfile : Profile
+    {
+        public MapperProfile()
+        {
+            //CreateMap<GymClass, GymClassViewModel>().ForMember(dest => dest.Attending, from => from.MapFrom(
+            //    (src, dest, _, context) => 
+            //    src.AttendingMembers.Any(a => a.ApplicationUserId == context.Items["UserId"].ToString()) )) ;
+            CreateMap<GymClass, GymClassViewModel>().ForMember(dest => dest.Attending, from => from.MapFrom<AttendingResolver>());
+ 
+        }
+
+        public class AttendingResolver : IValueResolver<GymClass, GymClassViewModel, bool>
+        {
+            private readonly IHttpContextAccessor httpContextAccessor;
+
+            public AttendingResolver(IHttpContextAccessor httpContextAccessor)
+            {
+                this.httpContextAccessor = httpContextAccessor;
+            }
+
+            public bool Resolve(GymClass source, GymClassViewModel destination, bool destMember, ResolutionContext context)
+            {
+                return source.AttendingMembers is null ? false :
+                    source.AttendingMembers
+                    .Any(a => a.ApplicationUserId == httpContextAccessor.HttpContext.User
+                    .FindFirstValue(ClaimTypes.NameIdentifier));
+            }
+        }
+    }
+}

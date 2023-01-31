@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
 using Ovn14_Gym.Core.Repositories;
+using Ovn14_Gym.Data;
 using Ovn14_Gym.Data.Data;
 using Ovn14_Gym.Data.Repositories;
 using Ovn14_Gym.Web.Data;
@@ -51,6 +52,8 @@ builder.Services.AddControllersWithViews(options =>
 //        policy.RequireClaim("Test");
 //    });
 //});
+
+builder.Services.AddAutoMapper(typeof(MapperProfile));
 
 var app = builder.Build();
 

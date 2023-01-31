@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -22,36 +23,39 @@ namespace Ovn14_Gym.Web.Controllers
 {
     public class GymClassesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMapper mapper;
         private readonly IUnitOfWork uow;
 
         //private readonly GymClassRepository gymClassesRepository;
 
-        public GymClassesController(IUnitOfWork uow, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public GymClassesController(IUnitOfWork uow, UserManager<ApplicationUser> userManager, IMapper mapper)
         {
-            _context = context;
             _userManager = userManager;
-          //  gymClassesRepository = new GymClassRepository(context);
-          this.uow = uow;
+            this.mapper = mapper;
+            //  gymClassesRepository = new GymClassRepository(context);
+            this.uow = uow;
         }
         [AllowAnonymous]
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
+            //var userId = _userManager.GetUserId(User);
+            var gymClasses = await uow.GymClassRepository.GetWithAttendingAsync();
+            var res = mapper.Map<IEnumerable<GymClassViewModel>>(gymClasses);
             // List<GymClass> model = await uow.GymClassRepository.GetAsync();
 
-            var userId = _userManager.GetUserId(User);
-            var model = (await uow.GymClassRepository.GetWithAttendingAsync())
-                .Select(g => new GymClassViewModel
-                {
-                    Id = g.Id,
-                    Name = g.Name,
-                    Duration= g.Duration,
-                    StartTime= g.StartTime,
-                    Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
-                }).ToList();
-            return View(model);
+            //var model = (await uow.GymClassRepository.GetWithAttendingAsync())
+            //    .Select(g => new GymClassViewModel
+            //    {
+            //        Id = g.Id,
+            //        Name = g.Name,
+            //        Duration= g.Duration,
+            //        StartTime= g.StartTime,
+            //        Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
+            //    }).ToList();
+            return View(res);
         }
 
       
