@@ -6,10 +6,10 @@
 
 <h1>Index</h1>
 
-<div id="createajax">
+<div id="createajax"></div>
 
-</div>
-
+@if (User.IsInRole("Admin"))
+{   
 <p>
     <a asp-action="Create">Create New Original</a>
  
@@ -26,6 +26,7 @@
 <p id="fetch" class="btn btn-dark">Fetch</p>
 <p id="fetch2" class="btn btn-dark">Fetch2</p>
 </p>
+}
 <table class="table">
     <thead>
         <tr>

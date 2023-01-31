@@ -1,22 +1,34 @@
 ﻿@model Ovn14_Gym.Core.Entities.GymClass
 
+
 <tr>
     <td>
-        @Html.DisplayFor(item => item.Name)
+        @if (User.IsInRole("Member"))
+        {
+            <a asp-action="Details" asp-route-id="@Model.Id">@Model.Name</a>
+        }
+        else
+        {
+            @Html.DisplayFor(modelItem => modelItem.Name)
+        }
     </td>
     <td>
-        @Html.DisplayFor(item => item.StartTime)
+        @Html.DisplayFor(modelItem => modelItem.StartTime)
     </td>
     <td>
-        @Html.DisplayFor(item => item.Duration)
+        @Html.DisplayFor(modelItem => modelItem.Duration)
     </td>
     <td>
-        @Html.DisplayFor(item => item.Description)
+        @Html.DisplayFor(modelItem => modelItem.Description)
     </td>
     <td>
-        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-        <a asp-action="Details" asp-route-id="@Model.Id">Details</a> |
-        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a> |
-        <a asp-action="BookingToggle" asp-route-id="@Model.Id">Book</a>
+        @if (User.IsInRole("Member"))
+        {
+            <a asp-action="BookingToggle" asp-route-id="@Model.Id">Book</a>
+        }
+
+        @*            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |*@
     </td>
 </tr>
+

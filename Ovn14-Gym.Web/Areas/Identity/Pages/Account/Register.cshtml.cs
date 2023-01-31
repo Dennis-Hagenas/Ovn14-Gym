@@ -22,6 +22,7 @@ using Ovn14_Gym.Core.Entities;
 
 namespace Ovn14_Gym.Web.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
