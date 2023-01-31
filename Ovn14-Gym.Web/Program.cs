@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
+using Ovn14_Gym.Core.Repositories;
 using Ovn14_Gym.Data.Data;
 using Ovn14_Gym.Data.Repositories;
 using Ovn14_Gym.Web.Data;

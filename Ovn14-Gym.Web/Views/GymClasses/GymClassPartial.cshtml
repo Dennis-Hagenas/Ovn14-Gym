@@ -1,4 +1,4 @@
-﻿@model Ovn14_Gym.Core.Entities.GymClass
+﻿@model GymClassViewModel
 
 
 <tr>
@@ -19,12 +19,11 @@
         @Html.DisplayFor(modelItem => modelItem.Duration)
     </td>
     <td>
-        @Html.DisplayFor(modelItem => modelItem.Description)
-    </td>
-    <td>
         @if (User.IsInRole("Member"))
         {
-            <a asp-action="BookingToggle" asp-route-id="@Model.Id">Book</a>
+            <a asp-action="BookingToggle" asp-route-id="@Model.Id" class="btn @(Model.Attending ? "btn-danger" : "btn-success")">
+                @(Model.Attending ? "Cancel" :"Book")
+                </a>
         }
 
         @*            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

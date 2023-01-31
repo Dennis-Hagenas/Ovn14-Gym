@@ -1,6 +1,6 @@
 ﻿using Ovn14_Gym.Core.Entities;
 
-namespace Ovn14_Gym.Data.Repositories
+namespace Ovn14_Gym.Core.Repositories
 {
     public interface IApplicationUserGymClassRepository
     {

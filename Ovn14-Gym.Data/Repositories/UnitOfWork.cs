@@ -1,4 +1,5 @@
-﻿using Ovn14_Gym.Data.Data;
+﻿using Ovn14_Gym.Core.Repositories;
+using Ovn14_Gym.Data.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

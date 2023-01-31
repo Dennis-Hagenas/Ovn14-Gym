@@ -5,19 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ovn14_Gym.Data.ViewModels
+namespace Ovn14_Gym.Core.ViewModels
 {
-    public class GymClassesViewModel
+    public class GymClassViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
 
-        [Required]
         public DateTime? StartTime { get; set; }
 
-        [Required]
         public TimeSpan? Duration { get; set; }
-        public DateTime? EndTime { get { return StartTime + Duration; } }
-        public string Description { get; set; } = string.Empty;
+
+        public bool Attending { get; set; }
     }
 }

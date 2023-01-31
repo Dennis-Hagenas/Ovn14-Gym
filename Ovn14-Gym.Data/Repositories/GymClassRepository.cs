@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
+using Ovn14_Gym.Core.Repositories;
 using Ovn14_Gym.Data.Data;
 using System;
 using System.Collections.Generic;
@@ -50,5 +51,9 @@ namespace Ovn14_Gym.Data.Repositories
             return (db.GymClasses?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
+        public async Task<IEnumerable<GymClass>> GetWithAttendingAsync()
+        {
+            return await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
+        }
     }
 }

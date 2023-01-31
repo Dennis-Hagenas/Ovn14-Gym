@@ -10,8 +10,9 @@ using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
+using Ovn14_Gym.Core.Repositories;
+using Ovn14_Gym.Core.ViewModels;
 using Ovn14_Gym.Data.Data;
-using Ovn14_Gym.Data.Repositories;
 using Ovn14_Gym.Web.Data;
 using Ovn14_Gym.Web.Extensions;
 using Ovn14_Gym.Web.Filters;
@@ -38,8 +39,18 @@ namespace Ovn14_Gym.Web.Controllers
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
-            List<GymClass> model = await uow.GymClassRepository.GetAsync();
- 
+            // List<GymClass> model = await uow.GymClassRepository.GetAsync();
+
+            var userId = _userManager.GetUserId(User);
+            var model = (await uow.GymClassRepository.GetWithAttendingAsync())
+                .Select(g => new GymClassViewModel
+                {
+                    Id = g.Id,
+                    Name = g.Name,
+                    Duration= g.Duration,
+                    StartTime= g.StartTime,
+                    Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
+                }).ToList();
             return View(model);
         }
 
@@ -57,20 +68,21 @@ namespace Ovn14_Gym.Web.Controllers
 
             if (attending == null)
             {
-                var augc = new ApplicationUserGymClass
+                ApplicationUserGymClass augc = new ApplicationUserGymClass
                 {
-                    ApllicationUserId = userId,
+                    ApplicationUserId = userId,
                     GymClassId = (int)id
                 };
                 // _context.AppUserGymClass.Add(augc);
                 uow.ApplicationUserGymClassRepository.Add(augc);
+                await uow.CompleteAsync();
             }
             else
             {
                 uow.ApplicationUserGymClassRepository.Remove(attending);
             }
 
-            uow.CompleteAsync();
+            await uow.CompleteAsync();
 
 
             return RedirectToAction("Index");
@@ -109,7 +121,7 @@ namespace Ovn14_Gym.Web.Controllers
             if (ModelState.IsValid)
             {
                 uow.GymClassRepository.Add(gymClass);
-                uow.CompleteAsync();
+                await uow.CompleteAsync();
                 return Request.IsAjax() ? 
                     PartialView("GymClassPartial", gymClass) 
                     : RedirectToAction(nameof(Index));

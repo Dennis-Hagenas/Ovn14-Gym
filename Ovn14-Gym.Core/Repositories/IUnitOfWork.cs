@@ -1,4 +1,4 @@
-﻿namespace Ovn14_Gym.Data.Repositories
+﻿namespace Ovn14_Gym.Core.Repositories
 {
     public interface IUnitOfWork
     {
