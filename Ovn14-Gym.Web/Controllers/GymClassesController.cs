@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Ovn14_Gym.Core.Entities;
@@ -52,40 +53,36 @@ namespace Ovn14_Gym.Web.Controllers
             var userId = _userManager.GetUserId(User);
 
             if (userId is null) return NotFound();
+            ApplicationUserGymClass? attending = await uow.ApplicationUserGymClassRepository.FindAsync((int)id, userId);
 
-            //var currentGymClass = await _context.GymClasses.Include(g => g.AttendingMembers )
-            //     .FirstOrDefaultAsync(g => g.Id == id);
-
-            //var attending = currentGymClass?.AttendingMembers.FirstOrDefault(a => a.ApllicationUserId == userId);
-
-            var attending = await _context.AppUserGymClass.FindAsync(userId, id);
-
-            if(attending == null)
+            if (attending == null)
             {
                 var augc = new ApplicationUserGymClass
                 {
                     ApllicationUserId = userId,
                     GymClassId = (int)id
                 };
-                _context.AppUserGymClass.Add(augc);
+                // _context.AppUserGymClass.Add(augc);
+                uow.ApplicationUserGymClassRepository.Add(augc);
             }
             else
             {
-                _context.AppUserGymClass.Remove(attending);
+                uow.ApplicationUserGymClassRepository.Remove(attending);
             }
 
-            await _context.SaveChangesAsync();
+            uow.CompleteAsync();
+
 
             return RedirectToAction("Index");
         }
+
 
 
         // GET: GymClasses/Details/5
         [RequiredParameterRequiredModel("id")]
         public async Task<IActionResult> Details(int? id)
         {
-            return View(await _context.GymClasses
-                .FirstOrDefaultAsync(m => m.Id == id));
+            return View(await uow.GymClassRepository.GetAsync((int)id));
         }
 
         // GET: GymClasses/Create
@@ -111,8 +108,8 @@ namespace Ovn14_Gym.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(gymClass);
-                await _context.SaveChangesAsync();
+                uow.GymClassRepository.Add(gymClass);
+                uow.CompleteAsync();
                 return Request.IsAjax() ? 
                     PartialView("GymClassPartial", gymClass) 
                     : RedirectToAction(nameof(Index));
@@ -165,11 +162,11 @@ namespace Ovn14_Gym.Web.Controllers
                 try
                 {
                     _context.Update(gymClass);
-                    await _context.SaveChangesAsync();
+                    uow.CompleteAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GymClassExists(gymClass.Id))
+                    if (!uow.GymClassRepository.GymClassExists(gymClass.Id))
                     {
                         return NotFound();
                     }
@@ -191,8 +188,7 @@ namespace Ovn14_Gym.Web.Controllers
                 return NotFound();
             }
 
-            var gymClass = await _context.GymClasses
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var gymClass = await uow.GymClassRepository.GetAsync((int) id);
             if (gymClass == null)
             {
                 return NotFound();
@@ -210,20 +206,17 @@ namespace Ovn14_Gym.Web.Controllers
             {
                 return Problem("Entity set 'ApplicationDbContext.GymClasses'  is null.");
             }
-            var gymClass = await _context.GymClasses.FindAsync(id);
+            GymClass gymClass = await uow.GymClassRepository.FindAsync(id);
+            //await _context.GymClasses.FindAsync(id);
             if (gymClass != null)
             {
-                _context.GymClasses.Remove(gymClass);
+                uow.GymClassRepository.Remove(gymClass);
             }
-            
-            await _context.SaveChangesAsync();
+
+            uow.CompleteAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GymClassExists(int id)
-        {
-          return (_context.GymClasses?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

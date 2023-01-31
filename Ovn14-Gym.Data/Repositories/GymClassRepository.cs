@@ -18,10 +18,37 @@ namespace Ovn14_Gym.Data.Repositories
             this.db = db;
         }
 
+
+        public void Add(GymClass gymClass)
+        {
+            db.GymClasses.Add(gymClass);
+        }
+
+
+        public void Remove(GymClass gymClass)
+        {
+            db.GymClasses.Remove(gymClass);
+        }
+        public async Task<GymClass> FindAsync(int id)
+        {
+            return await db.GymClasses.FindAsync(id);
+        }
         public async Task<List<GymClass>> GetAsync()
         {
             //var model = await _context.GymClasses.IgnoreQueryFilters().ToListAsync();
             return await db.GymClasses.ToListAsync();
         }
+
+        public async Task<GymClass> GetAsync(int id)
+        {
+           return await db.GymClasses
+                 .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public bool GymClassExists(int id)
+        {
+            return (db.GymClasses?.Any(e => e.Id == id)).GetValueOrDefault();
+        }
+
     }
 }

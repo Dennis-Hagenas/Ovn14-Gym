@@ -11,12 +11,14 @@ namespace Ovn14_Gym.Data.Repositories
     {
         private readonly ApplicationDbContext db;
 
-        public GymClassRepository GymClassRepository { get; }
+        public IGymClassRepository GymClassRepository { get; }
+        public IApplicationUserGymClassRepository ApplicationUserGymClassRepository { get; }
 
         public UnitOfWork(ApplicationDbContext db)
         {
             this.db = db;
             GymClassRepository = new GymClassRepository(db);
+            ApplicationUserGymClassRepository = new ApplicationUserGymClassRepository(db);
         }
 
         public async Task CompleteAsync()
