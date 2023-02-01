@@ -43,8 +43,11 @@ namespace Ovn14_Gym.Web.Controllers
         {
             //var userId = _userManager.GetUserId(User);
             var gymClasses = await uow.GymClassRepository.GetWithAttendingAsync();
-            var res = mapper.Map<IEnumerable<GymClassViewModel>>(gymClasses);
+            var res = mapper.Map<IndexViewModel>(gymClasses);
             // List<GymClass> model = await uow.GymClassRepository.GetAsync();
+
+
+
 
             //var model = (await uow.GymClassRepository.GetWithAttendingAsync())
             //    .Select(g => new GymClassViewModel
@@ -127,7 +130,7 @@ namespace Ovn14_Gym.Web.Controllers
                 uow.GymClassRepository.Add(gymClass);
                 await uow.CompleteAsync();
                 return Request.IsAjax() ? 
-                    PartialView("GymClassPartial", gymClass) 
+                    PartialView("GymClassPartial", mapper.Map<GymClassViewModel> (gymClass)) 
                     : RedirectToAction(nameof(Index));
             }
 

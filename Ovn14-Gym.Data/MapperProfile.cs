@@ -20,6 +20,9 @@ namespace Ovn14_Gym.Data
             //    (src, dest, _, context) => 
             //    src.AttendingMembers.Any(a => a.ApplicationUserId == context.Items["UserId"].ToString()) )) ;
             CreateMap<GymClass, GymClassViewModel>().ForMember(dest => dest.Attending, from => from.MapFrom<AttendingResolver>());
+
+            CreateMap<IEnumerable<GymClass>, IndexViewModel>()
+                .ForMember(dest => dest.GymClass, from => from.MapFrom(g => g.ToList()));
  
         }
 
