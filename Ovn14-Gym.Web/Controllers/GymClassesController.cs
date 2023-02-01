@@ -34,36 +34,19 @@ namespace Ovn14_Gym.Web.Controllers
         {
             _userManager = userManager;
             this.mapper = mapper;
-            //  gymClassesRepository = new GymClassRepository(context);
             this.uow = uow;
         }
         [AllowAnonymous]
         // GET: GymClasses
         public async Task<IActionResult> Index()
         {
-            //var userId = _userManager.GetUserId(User);
             var gymClasses = await uow.GymClassRepository.GetWithAttendingAsync();
             var res = mapper.Map<IndexViewModel>(gymClasses);
-            // List<GymClass> model = await uow.GymClassRepository.GetAsync();
-
-
-
-
-            //var model = (await uow.GymClassRepository.GetWithAttendingAsync())
-            //    .Select(g => new GymClassViewModel
-            //    {
-            //        Id = g.Id,
-            //        Name = g.Name,
-            //        Duration= g.Duration,
-            //        StartTime= g.StartTime,
-            //        Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
-            //    }).ToList();
             return View(res);
         }
 
       
 
-        //[Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
         {
             if (id is null) return BadRequest();
@@ -80,7 +63,6 @@ namespace Ovn14_Gym.Web.Controllers
                     ApplicationUserId = userId,
                     GymClassId = (int)id
                 };
-                // _context.AppUserGymClass.Add(augc);
                 uow.ApplicationUserGymClassRepository.Add(augc);
                 await uow.CompleteAsync();
             }
