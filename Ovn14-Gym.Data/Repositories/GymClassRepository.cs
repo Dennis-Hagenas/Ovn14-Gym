@@ -55,5 +55,13 @@ namespace Ovn14_Gym.Data.Repositories
         {
             return await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
         }
+
+        public async Task<IEnumerable<GymClass>> GetHistoryAsync()
+        {
+            return await db.GymClasses
+                .Include(g => g.AttendingMembers)
+                .IgnoreQueryFilters()
+                .Where(g => g.StartTime < DateTime.Now).ToListAsync();
+        }
     }
 }

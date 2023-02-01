@@ -38,9 +38,14 @@ namespace Ovn14_Gym.Web.Controllers
         }
         [AllowAnonymous]
         // GET: GymClasses
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IndexViewModel viewModel)
         {
-            var gymClasses = await uow.GymClassRepository.GetWithAttendingAsync();
+            if (User != null && !User.Identity.IsAuthenticated)
+                return View(mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetAsync()));
+
+            var gymClasses = viewModel.ShowHistory ?
+                await uow.GymClassRepository.GetHistoryAsync()
+                : await uow.GymClassRepository.GetWithAttendingAsync();
             var res = mapper.Map<IndexViewModel>(gymClasses);
             return View(res);
         }

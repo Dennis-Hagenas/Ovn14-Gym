@@ -8,6 +8,7 @@ namespace Ovn14_Gym.Core.Repositories
         Task<GymClass> FindAsync(int id);
         Task<List<GymClass>> GetAsync();
         Task<GymClass> GetAsync(int id);
+        Task<IEnumerable<GymClass>> GetHistoryAsync();
         Task<IEnumerable<GymClass>> GetWithAttendingAsync();
         bool GymClassExists(int id);
         void Remove(GymClass gymClass);
