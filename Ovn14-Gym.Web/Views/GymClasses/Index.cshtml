@@ -70,3 +70,12 @@
 
     </tbody>
 </table>
+@if (User.IsInRole("Admin"))
+{
+
+    @section Scripts {
+    
+            @{await Html.RenderPartialAsync("RenderFetchPartial");}
+        
+    }
+}
