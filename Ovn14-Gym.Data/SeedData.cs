@@ -63,7 +63,10 @@ namespace Ovn14_Gym.Data
             var admin = new ApplicationUser
             {
                 UserName = adminEmail,
-                Email = adminEmail
+                Email = adminEmail,
+                FirstName = "Admin",
+                LastName = "Admin",
+                TimeOfRegistration = DateTime.Now
             };
 
             var result = await userManager.CreateAsync(admin, adminPW);
